@@ -36,4 +36,24 @@ jobs:
         with:
           name: unittest.html
           path: app/build/reports/tests/testDebugUnitTest/classes/com.sankar.train.ExampleUnitTest.html
+
+  instrument-test:
+    needs: [ unit-test ]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the code
+      - uses: actions/checkout@v4
+
+      - name: Run espresso tests
+        uses: reactivecircus/android-emulator-runner@v4
+        with:
+          api-level: 21
+          script: ./gradlew connectedCheck
+
+      - name: upload test report
+        uses: actions/upload-artifact@v4
+        with:
+          name: instrumentation_test_report
+          path: app/build/reports/androidTests/connected/
      
