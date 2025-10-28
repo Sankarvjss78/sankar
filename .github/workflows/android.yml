@@ -42,14 +42,13 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - run: ./gradlew connectedDebugAndroidTest
-        name: Checkout the code
       - uses: actions/checkout@v4
 
       - name: Run espresso tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
+          default: x86_64
           script: ./gradlew connectedDebugAndroidTest
 
       - name: upload test report
