@@ -45,10 +45,13 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Run espresso tests
-        uses: reactivecircus/android-emulator-runner@v2
+        uses: reactivecircus/android-emulator-runner@v4
         with:
           api-level: 29
-          default: x86_64
+          target: google_apis
+          arch: x86_64
+          profile: Nexus 6
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot
           script: ./gradlew connectedDebugAndroidTest
 
       - name: upload test report
