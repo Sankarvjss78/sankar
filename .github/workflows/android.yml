@@ -42,7 +42,7 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - run: ./gradlew connectedCheck
+      - run: ./gradlew connectedDebugAndroidTest
         name: Checkout the code
       - uses: actions/checkout@v4
 
