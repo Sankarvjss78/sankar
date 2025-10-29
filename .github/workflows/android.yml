@@ -7,38 +7,38 @@ on:
     branches: [ "main" ]
 
 jobs:
-#  lint:
-#
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#    - uses: actions/checkout@v4
-#    - name: Run Lint
-#      run: ./gradlew lintDebug
-#
-#    - name: Upload lint report
-#      uses: actions/upload-artifact@v4
-#      with:
-#        name: lint.html
-#        path: app/build/reports/lint-results-debug.html
+  lint:
 
-#  unit-test:
-#    needs: [lint]
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      - uses: actions/checkout@v4
-#      - name: Run Unit Test
-#        run: ./gradlew lintDebug
-#
-#      - name: Upload the unit test report
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: unittest.html
-#          path: app/build/reports/tests/testDebugUnitTest/classes/com.sankar.train.ExampleUnitTest.html
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Run Lint
+      run: ./gradlew lintDebug
+
+    - name: Upload lint report
+      uses: actions/upload-artifact@v4
+      with:
+        name: lint.html
+        path: app/build/reports/lint-results-debug.html
+
+  unit-test:
+    needs: [lint]
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Unit Test
+        run: ./gradlew lintDebug
+
+      - name: Upload the unit test report
+        uses: actions/upload-artifact@v4
+        with:
+          name: unittest.html
+          path: app/build/reports/tests/testDebugUnitTest/classes/com.sankar.train.ExampleUnitTest.html
 
   instrument-test:
-#    needs: [ unit-test ]
+    needs: [ unit-test ]
     runs-on: macos-13
     continue-on-error: true
 
@@ -76,4 +76,27 @@ jobs:
         with:
           name: instrumentation_test_report
           path: app/build/reports/androidTests/connected/
-     
+
+
+  build-apk:
+    needs: [ instrument-test ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'adopt'
+          java-version: 17
+
+      - name: Build Apk
+        run: ./gradlew assembleDebug
+
+      - name: Upload Apk
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-depug.apk
+          path: app/build/apk/depug/app-depug.apk
+
+
