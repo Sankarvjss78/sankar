@@ -51,8 +51,8 @@ jobs:
           distribution: 'adopt'
           java-version: 17
 
-      - name: Change Wrapper Permission
-        run: chomd +x ./gradlew
+#      - name: Change Wrapper Permission
+#        run: chomd +x ./gradlew
 
       - name: Set up Android Sdk
         uses: android-actions/setup-android@v3
